@@ -1,3 +1,4 @@
+const { logoutService } = require('../services/auth_service');
 const authService = require('../services/auth_service');
 const { z } = require("zod")
 
@@ -100,9 +101,27 @@ async function refreshController(req, res) {
     }
 }
 
+async function logoutController(req, res) {
+    try{
+        const refresh = req.cookies.refresh
+    if(!refresh) return res.json({status: "ok", message: "logged out successfully"})
+    
+    await authService.logoutService(refresh)
+    return res.json({status: "ok", message: "logged out successfully"})
+    }
+    catch(e){
+        if(e.message === "TOKEN_NOT_FOUND") return res.json({status: "ok", message: "logged out successfully"})
+        console.log(e.message)
+        return res.status(500).json({ status: "error", message: "Internal server error" });
+    }
+    
+
+}
+
 module.exports = {
     registerController,
     loginController,
     meController,
-    refreshController
+    refreshController,
+    logoutController
 };

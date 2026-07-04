@@ -34,10 +34,13 @@ async function registerService(user, avatarPath) {
 }
 
 async function loginService(user) {
+    let hash
     const dbUser = await authRepository.findUserByName(user.name);
-    if (!dbUser) throw new Error("INCORRECT_DATA");
+    if (!dbUser) {hash = process.env.FAKE_HASH}
+    else{hash = dbUser.password_hash}
+    
 
-    const isPasswordValid = await bcrypt.compare(user.password, dbUser.password_hash);
+    const isPasswordValid = await bcrypt.compare(user.password, hash);
     if (!isPasswordValid) throw new Error("INCORRECT_DATA");
 
     const access = jwt.sign({ id: dbUser.id, role: "user"  }, process.env.JWT_SECRET, { expiresIn: "15m" });
@@ -66,8 +69,8 @@ async function refreshService(oldRefreshToken) {
     }
     
     await authRepository.deleteRefreshToken(refreshToken.id);
-
-    const access = jwt.sign({ id: refreshToken.user_id, role: "user" }, process.env.JWT_SECRET, { expiresIn: "15m" });
+    const user = await authRepository.findUserById(refreshToken.user_id)
+    const access = jwt.sign({ id: refreshToken.user_id, role: user.role }, process.env.JWT_SECRET, { expiresIn: "15m" });
     const refresh = crypto.randomBytes(40).toString('hex');
     
     const expiresAt = new Date();
@@ -78,9 +81,17 @@ async function refreshService(oldRefreshToken) {
     return { access, refresh };
 }
 
+async function logoutService(token){
+    const isToken = await authRepository.findRefreshToken(token)
+    if(!isToken) throw new Error("TOKEN_NOT_FOUND")
+    await authRepository.deleteRefreshToken(isToken.id)
+    return true
+}
+
 module.exports = {
     registerService,
     loginService,
     meService,
-    refreshService
+    refreshService,
+    logoutService
 };

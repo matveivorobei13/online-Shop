@@ -31,5 +31,7 @@ authRouter.get("/refresh",
     authControllers.refreshController
 )
 
+authRouter.post("/logout", authControllers.logoutController)
 module.exports = authRouter
+
 
