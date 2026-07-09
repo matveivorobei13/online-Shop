@@ -14,8 +14,14 @@ async function createCategory(title){
          VALUES($1)`, [title])
 }
 
+async function getCategoryById(id){
+    const category = await pool.query(`SELECT * FROM categories WHERE id = $1`, [id])
+    return category.rows
+}
+
 module.exports = {
     getCategories,
     getCategoriesByTitle,
-    createCategory
+    createCategory,
+    getCategoryById
 }
