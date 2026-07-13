@@ -2,6 +2,7 @@ const pool = require("../config/db")
 
 async function getCategories(){
     const categories = await pool.query(`SELECT * FROM categories`)
+    console.log(categories)
     return categories.rows
 }
 async function getCategoriesByTitle(title){

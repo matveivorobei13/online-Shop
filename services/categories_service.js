@@ -1,7 +1,7 @@
 const categoriesRepository = require("../repositories/categories_repository")
 
 async function getCategoriesService() {
-    const categories = await categoriesRepository.getCategories
+    const categories = await categoriesRepository.getCategories()
 
     return categories
 }

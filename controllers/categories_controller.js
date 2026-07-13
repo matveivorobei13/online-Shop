@@ -3,7 +3,7 @@ const { z } = require("zod")
 
 async function getCategoriesController(req, res){
     try{
-        const categories = categoriesService.getCategoriesService()
+        const categories = await categoriesService.getCategoriesService()
 
         return res.json({status: "ok", categories: categories})
     }
