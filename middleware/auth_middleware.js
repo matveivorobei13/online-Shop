@@ -19,7 +19,7 @@ async function authMiddleware(req, res, next) {
 }
 
 async function roleMiddleware(req, res, next){
-    console.log(req.user)
+    
     if(req.user.role !== "admin"){
         return res.status(403).json({status: "error", message: "not enough rights"})
     }

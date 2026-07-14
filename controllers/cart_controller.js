@@ -50,7 +50,7 @@ async function editItemQuantityController(req, res){
         if(isNaN(id) || id <= 0) return res.status(400).json({status: "error", message: "ID must be an integer and greater than 0"})
         if(isNaN(quantity) || quantity <= 0) return res.status(400).json({status: "error", message: "quantity must be an integer and greater than 0"})
         
-        await cartService.editItemQuantityService(quantity, id)
+        await cartService.editItemQuantityService(quantity, id, req.user.id)
         return res.json({status: "ok", message: "quantity edited"})
     }
     catch(e){

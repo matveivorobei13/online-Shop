@@ -96,7 +96,7 @@ async function refreshController(req, res) {
         if (e.message === "TOKEN_NOT_FOUND" || e.message === "TOKEN_EXPIRED") {
             return res.status(401).json({ status: "error", message: "Session expired. Please log in again" });
         }
-        console.error(e);
+        
         return res.status(500).json({ status: "error", message: "Internal server error" });
     }
 }

@@ -30,7 +30,7 @@ async function createCategoryController(req, res) {
     }
     catch(e){
         if(e.message === "CATEGORY_ALREADY_EXIST") return res.status(409).json({ status: "error", message: "This category already exists" });
-        console.log(e.message)
+        
         return res.status(500).json({ status: "error", message: "Internal server error" });
 
     }

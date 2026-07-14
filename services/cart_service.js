@@ -33,7 +33,7 @@ async function deleteCartItemService(user_id, item_id){
 async function editItemQuantityService(quantity, itemId, user_id){
     const item = await cartRepositry.getItemById(itemId)
     if(!item) throw new Error("ITEM_NOT_FOUND")
-    const cart = cartRepositry.getCart(user_id)
+    const cart = await cartRepositry.getCart(user_id)
     if(cart.id !== item.cart_id) throw new Error("ITEM_NOT_FOUND")
     
     await cartRepositry.editItemQuantity(quantity, itemId)

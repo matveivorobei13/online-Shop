@@ -34,7 +34,7 @@ async function getProducts(search, category, sort, page, limit){
     query += `  OFFSET $${values.length + 1}`
     const offset = (page - 1) * limit;
     values.push(offset)
-    console.log(query)
+    
     const products = await pool.query(query, values)
     return products.rows
 }

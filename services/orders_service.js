@@ -10,8 +10,8 @@ async function getOrdersService(user_id){
 
 async function getOrderService(id, user_id){
     const order = await ordersRepository.getOrder(id)
-    console.log(order)
-    console.log(user_id)
+    
+    
     if(!order) throw new Error("ORDER_NOT_FOUND")
     
     if(order[0].user_id !== user_id) throw new Error ("FORBIDDEN")
