@@ -24,14 +24,17 @@ async function deleteCartItemService(user_id, item_id){
     const cartItem = await cartRepositry.getItemById(item_id)
 
     if(!cartItem) throw new Error("ITEM_NOT_FOUND")
+    if(cartItem.cart_id !== cart.id) throw new Error("ITEM_NOT_FOUND")
 
     await cartRepositry.deleteCartItem(item_id)
 
 }
 
-async function editItemQuantityService(quantity, itemId){
-    const item = cartRepositry.getItemById(itemId)
+async function editItemQuantityService(quantity, itemId, user_id){
+    const item = await cartRepositry.getItemById(itemId)
     if(!item) throw new Error("ITEM_NOT_FOUND")
+    const cart = cartRepositry.getCart(user_id)
+    if(cart.id !== item.cart_id) throw new Error("ITEM_NOT_FOUND")
     
     await cartRepositry.editItemQuantity(quantity, itemId)
 }

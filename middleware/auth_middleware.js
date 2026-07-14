@@ -14,7 +14,7 @@ async function authMiddleware(req, res, next) {
       next()
     }
     catch(e){
-       return res.status(403).json({ status: "error", message: "Токен невалиден или просрочен" });
+       return res.status(403).json({ status: "error", message: "Invalid token" });
     }
 }
 

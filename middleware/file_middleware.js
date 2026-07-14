@@ -33,7 +33,7 @@ const storage = multer.diskStorage({
 
 function fileMiddleware(req, res, next){
     if(!req.file){
-        return res.json({status: "error", message: "вы не добавили файл"})
+        return res.json({status: "error", message: "file was not added"})
     }
     next()
 }

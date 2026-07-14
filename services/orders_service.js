@@ -36,7 +36,7 @@ async function editOrderStatusService(newStatus, order_id, user_id){
     const order = await ordersRepository.getOrderByUserId(order_id)
 
     if(!order) throw new Error("ORDER_NOT_FOUND")
-    if(order.user_id != user_id) throw new Error ("FORBIDDEN")
+    
     
     if(!transitions[order.status].includes(newStatus)) throw new Error("CANNOT_CHANGE_ORDER_STATUS")
     
